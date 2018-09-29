@@ -9,19 +9,8 @@ import (
 	"log"
 	"net/http"
 	"time"
+	"watchtopus/orm"
 )
-
-type MetricFloat struct {
-	Key string			`json:"key"`
-	Val float64			`json:"val"`
-	Category string		`json:"category"` //cpu, memory, network
-	SubCategory string	`json:"subcategory"` //user, system, idle
-	Component string	`json:"component"` //Optional - cpu0, cpu1, cpu2, etc..
-	Timestamp time.Time	`json:"timestamp"` //Optional - cpu0, cpu1, cpu2, etc..
-}
-
-
-
 
 var _context context.Context
 var _esClient *elastic.Client
@@ -33,7 +22,7 @@ func main() {
 	m.Post("/report", func(res http.ResponseWriter, req *http.Request) {
 		//Decode the JSON data
 		decoder := json.NewDecoder(req.Body)
-		var data []MetricFloat
+		var data []orm.MetricFloat
 		err := decoder.Decode(&data)
 		if err != nil {
 			panic(err)
@@ -41,7 +30,7 @@ func main() {
 		log.Printf("Received data: %s", data[0].Key)
 
 		//Save this metric as a document in the "metrics" index in ES
-		for _, metric := range data{
+		for _, metric := range data {
 			metric.Timestamp = time.Now()
 			res, err := _esClient.Index().Index("metrics").Type("_doc").BodyJson(metric).Do(req.Context())
 			if err != nil {
@@ -51,13 +40,10 @@ func main() {
 			fmt.Printf("Indexed %s to index %s\n", res.Id, res.Index)
 		}
 
-
-
 		res.WriteHeader(200)
 	})
 	m.RunOnAddr(":3000")
 }
-
 
 func initElastic() {
 	_context = context.Background()
@@ -79,7 +65,6 @@ func initElastic() {
 		panic(err)
 	}
 	fmt.Printf("Elasticsearch returned with code %d and version %s\n", code, info.Version.Number)
-
 
 	// Use the IndexExists service to check if a specified index exists.
 	exists, err := _esClient.IndexExists("metrics").Do(_context)

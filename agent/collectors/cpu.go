@@ -6,8 +6,8 @@ import (
 	"log"
 	"math"
 	"time"
+	"watchtopus/orm"
 )
-
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Option 2 - Parse by myself:
@@ -23,16 +23,7 @@ import (
 // Stackoverflow: https://stackoverflow.com/questions/11356330/getting-cpu-usage-with-golang
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
-type MetricFloat struct {
-	Key string
-	Val float64
-	Category string //cpu, memory, network
-	SubCategory string //user, system, idle
-	Component string //Optional - cpu0, cpu1, cpu2, etc..
-}
-
-func CollectCpu() (metrics []MetricFloat) {
+func CollectCpu() (metrics []orm.MetricFloat) {
 	stat1, err := linuxproc.ReadStat("/proc/stat")
 	if err != nil {
 		log.Fatal("stat read fail")
@@ -45,8 +36,7 @@ func CollectCpu() (metrics []MetricFloat) {
 		log.Fatal("stat read fail")
 	}
 
-
-	metrics = make([]MetricFloat, 0)
+	metrics = make([]orm.MetricFloat, 0)
 
 	for i := 0; i < len(stat1.CPUStats); i++ {
 		diff := linuxproc.CPUStat{
@@ -64,24 +54,22 @@ func CollectCpu() (metrics []MetricFloat) {
 
 		total := diff.User + diff.Nice + diff.System + diff.Idle + diff.IOWait + diff.IRQ + diff.SoftIRQ + diff.Steal + diff.Guest + diff.GuestNice
 
-
 		// Lambda func to calc percentage out of total and round up to 2 decimals places after dot
-		calcPercent := func(val, total uint64) float64 {return math.Trunc(float64(val) / float64(total) * 100.0 * 100.0) / 100.0}
+		calcPercent := func(val, total uint64) float64 { return math.Trunc(float64(val)/float64(total)*100.0*100.0) / 100.0 }
 
-
-		metrics = append(metrics, MetricFloat{
-			Key: fmt.Sprintf("cpu.user.%s", diff.Id),
-			Val: calcPercent(diff.User, total),
-			Category: "cpu",
+		metrics = append(metrics, orm.MetricFloat{
+			Key:         fmt.Sprintf("cpu.user.%s", diff.Id),
+			Val:         calcPercent(diff.User, total),
+			Category:    "cpu",
 			SubCategory: "user",
-			Component: diff.Id})
+			Component:   diff.Id})
 
-		metrics = append(metrics, MetricFloat{
-			Key: fmt.Sprintf("cpu.system.%s", diff.Id),
-			Val: calcPercent(diff.System, total),
-			Category: "cpu",
+		metrics = append(metrics, orm.MetricFloat{
+			Key:         fmt.Sprintf("cpu.system.%s", diff.Id),
+			Val:         calcPercent(diff.System, total),
+			Category:    "cpu",
 			SubCategory: "system",
-			Component: diff.Id})
+			Component:   diff.Id})
 	}
 
 	return
