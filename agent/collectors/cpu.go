@@ -23,7 +23,7 @@ import (
 // Stackoverflow: https://stackoverflow.com/questions/11356330/getting-cpu-usage-with-golang
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-func CollectCpu() (metrics []orm.MetricFloat) {
+func CollectCpu(ch chan []orm.MetricFloat) {
 	stat1, err := linuxproc.ReadStat("/proc/stat")
 	if err != nil {
 		log.Fatal("stat read fail")
@@ -36,7 +36,7 @@ func CollectCpu() (metrics []orm.MetricFloat) {
 		log.Fatal("stat read fail")
 	}
 
-	metrics = make([]orm.MetricFloat, 0)
+	metrics := make([]orm.MetricFloat, 0)
 
 	for i := 0; i < len(stat1.CPUStats); i++ {
 		diff := linuxproc.CPUStat{
@@ -72,5 +72,5 @@ func CollectCpu() (metrics []orm.MetricFloat) {
 			Component:   diff.Id})
 	}
 
-	return
+	ch <- metrics
 }

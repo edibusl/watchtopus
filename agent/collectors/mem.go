@@ -6,8 +6,8 @@ import (
 	"watchtopus/orm"
 )
 
-func CollectMem() (metrics []orm.MetricFloat) {
-	metrics = make([]orm.MetricFloat, 0)
+func CollectMem(ch chan []orm.MetricFloat) {
+	metrics := make([]orm.MetricFloat, 0)
 
 	//var stats runtime.MemStats
 	//runtime.ReadMemStats(&stats)
@@ -39,5 +39,5 @@ func CollectMem() (metrics []orm.MetricFloat) {
 		SubCategory: "used",
 		Component:   ""})
 
-	return
+	ch <- metrics
 }
