@@ -7,22 +7,32 @@ import (
 	"github.com/olivere/elastic"
 	"github.com/op/go-logging"
 	"github.com/spf13/viper"
+	"io/ioutil"
+	"log"
 	"net/http"
-	"os"
 	"strconv"
 	"time"
+	"watchtopus/infra"
 	"watchtopus/orm"
 )
 
 var _context context.Context
 var _esClient *elastic.Client
-var log = logging.MustGetLogger("server")
+var logger = logging.MustGetLogger("watchtopus")
 
 func main() {
-	initLogger()
-	initConfigs()
+	infra.InitLogger()
+	initDefaultConfigs()
+	infra.InitConfigs("server")
+
 	initElastic()
 	startApiServer()
+}
+
+func initDefaultConfigs() {
+	// Set defaults in case that the conf file is not found
+	viper.SetDefault("elastics.host", "http://127.0.0.1:9200")
+	viper.SetDefault("listener.port", 3000)
 }
 
 func startApiServer() {
@@ -33,9 +43,9 @@ func startApiServer() {
 		var data []orm.MetricFloat
 		err := decoder.Decode(&data)
 		if err != nil {
-			log.Error(err)
+			logger.Error(err)
 		}
-		log.Infof("Received data: %s", data[0].Key)
+		logger.Debugf("Received data: %s", data[0].Key)
 
 		//Save this metric as a document in the "metrics" index in ES
 		for _, metric := range data {
@@ -43,56 +53,19 @@ func startApiServer() {
 			res, err := _esClient.Index().Index("metrics").Type("_doc").BodyJson(metric).Do(req.Context())
 			if err != nil {
 				// Handle error
-				log.Error(err)
+				logger.Error(err)
 			}
-			log.Infof("Indexed %s to index %s\n", res.Id, res.Index)
+			logger.Debugf("Indexed %s to index %s\n", res.Id, res.Index)
 		}
 
 		res.WriteHeader(200)
 	})
+
+	// Disable martini logger
+	m.Logger(log.New(ioutil.Discard, "", 0))
+
+	// Start listening
 	m.RunOnAddr(":" + strconv.Itoa(viper.GetInt("listener.port")))
-}
-
-func initLogger() {
-	// Create a new logging backend
-	backend := logging.NewLogBackend(os.Stderr, "", 0)
-
-	// Create a format for the logger
-	var format = logging.MustStringFormatter(
-		`%{color}%{time:15:04:05.000} %{shortfunc} ▶ %{level:.4s} %{id:03x}%{color:reset} %{message}`,
-	)
-
-	// Create a chain of logger backends. We'll use the last one which includes all the options.
-	backendFormatter := logging.NewBackendFormatter(backend, format)
-	backendLeveled := logging.AddModuleLevel(backendFormatter)
-	backendLeveled.SetLevel(logging.INFO, "")
-
-	// Set the global logging backend
-	logging.SetBackend(backendLeveled)
-}
-
-func initConfigs() {
-	// Set defaults in case that the conf file is not found
-	viper.SetDefault("elastics.host", "http://127.0.0.1:9200")
-	viper.SetDefault("listener.port", 3000)
-
-	// Set filename
-	viper.SetConfigName("config")
-	viper.SetConfigType("json")
-
-	// Set multiple paths to search for the conf file, including the running dir
-	viper.AddConfigPath(".")
-	dir, err := os.Getwd()
-	if err == nil {
-		viper.AddConfigPath(dir)
-		viper.AddConfigPath(dir + "/server")
-	}
-
-	//Read config
-	err = viper.ReadInConfig() // Find and read the config file
-	if err != nil {            // Handle errors reading the config file
-		log.Warningf("Error reading configs file: %s. Using default keys. \n", err)
-	}
 }
 
 func initElastic() {
@@ -114,7 +87,7 @@ func initElastic() {
 		// Handle error
 		panic(err)
 	}
-	log.Noticef("Elasticsearch returned with code %d and version %s\n", code, info.Version.Number)
+	logger.Noticef("Elasticsearch returned with code %d and version %s\n", code, info.Version.Number)
 
 	// Use the IndexExists service to check if a specified index exists.
 	exists, err := _esClient.IndexExists("metrics").Do(_context)
@@ -123,6 +96,6 @@ func initElastic() {
 		panic(err)
 	}
 	if !exists {
-		log.Fatalf("Error! Index does not exist.")
+		logger.Fatalf("Error! Index does not exist.")
 	}
 }
