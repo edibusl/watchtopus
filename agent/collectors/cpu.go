@@ -3,42 +3,35 @@ package collectors
 import (
 	"fmt"
 	linuxproc "github.com/c9s/goprocinfo/linux"
-	"log"
+	"github.com/op/go-logging"
 	"math"
 	"time"
 	"watchtopus/orm"
 )
 
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// Option 2 - Parse by myself:
-//idle0, total0 := getCPUSample()
-//time.Sleep(3 * time.Second)
-//idle1, total1 := getCPUSample()
-//idleTicks := float64(idle1 - idle0)
-//totalTicks := float64(total1 - total0)
-//cpuUsage := 100 * (totalTicks - idleTicks) / totalTicks
-//fmt.Printf("CPU usage is %f%% [busy: %f, total: %f]\n", cpuUsage, totalTicks-idleTicks, totalTicks)
-
-// Option 3 - Use mpstat -P ALL 1 1 (it makes the calculations by itslef)
-// Stackoverflow: https://stackoverflow.com/questions/11356330/getting-cpu-usage-with-golang
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+var logger = logging.MustGetLogger("watchtopus")
 
 func CollectCpu(ch chan []orm.MetricFloat) {
+	// Read first sample
 	stat1, err := linuxproc.ReadStat("/proc/stat")
 	if err != nil {
-		log.Fatal("stat read fail")
+		logger.Fatal("Stat read failed")
 	}
 
+	// Wait
 	time.Sleep(1 * time.Second)
 
+	// Read second sample
 	stat2, err := linuxproc.ReadStat("/proc/stat")
 	if err != nil {
-		log.Fatal("stat read fail")
+		logger.Fatal("Stat read failed")
 	}
 
 	metrics := make([]orm.MetricFloat, 0)
 
+	// Go through all CPU cores
 	for i := 0; i < len(stat1.CPUStats); i++ {
+		// Calc the diffs between 2 samples
 		diff := linuxproc.CPUStat{
 			stat1.CPUStats[i].Id,
 			stat2.CPUStats[i].User - stat1.CPUStats[i].User,

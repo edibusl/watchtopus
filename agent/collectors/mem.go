@@ -2,7 +2,6 @@ package collectors
 
 import (
 	linuxproc "github.com/c9s/goprocinfo/linux"
-	"log"
 	"watchtopus/orm"
 )
 
@@ -13,7 +12,7 @@ func CollectMem(ch chan []orm.MetricFloat) {
 	//runtime.ReadMemStats(&stats)
 	stat1, err := linuxproc.ReadMemInfo("/proc/meminfo")
 	if err != nil {
-		log.Fatal("stat read fail")
+		logger.Fatal("Stat read failed")
 	}
 
 	metrics = append(metrics, orm.MetricFloat{

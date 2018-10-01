@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-var log = logging.MustGetLogger("watchtopus")
+var logger = logging.MustGetLogger("watchtopus")
 
 func InitLogger() {
 	// Create a new logging backend
@@ -51,6 +51,6 @@ func InitConfigs(componentName string) {
 	//Read config
 	err = viper.ReadInConfig() // Find and read the config file
 	if err != nil {            // Handle errors reading the config file
-		log.Warningf("Error reading configs file: %s. Using default keys. \n", err)
+		logger.Warningf("Error reading configs file: %s. Using default keys. \n", err)
 	}
 }

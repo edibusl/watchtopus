@@ -3,16 +3,21 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
+	"github.com/op/go-logging"
 	"github.com/spf13/viper"
 	"net/http"
-	"os"
 	"watchtopus/agent/collectors"
+	"watchtopus/infra"
 	"watchtopus/orm"
 )
 
+var logger = logging.MustGetLogger("watchtopus")
+
 func main() {
-	initConfigs()
+	infra.InitLogger()
+	initDefaultConfigs()
+	infra.InitConfigs("agent")
+
 	collect()
 }
 
@@ -31,15 +36,15 @@ func collect() {
 
 		// Encode metrics array to JSON string
 		strJson, _ := json.Marshal(allMetrics)
-		fmt.Println(string(strJson))
+		logger.Debug(string(strJson))
 
 		// Send metrics JSON array to the server
 		baseUrl := viper.GetStringSlice("servers")[0]
 		resp, err := http.Post(baseUrl+"/report", "application/json", bytes.NewBuffer(strJson))
 		if err != nil || (resp != nil && resp.StatusCode != 200) {
-			fmt.Printf("An error occured: %s\n", err)
+			logger.Errorf("An error occured: %s\n", err)
 		} else {
-			fmt.Println("Sent report successfully")
+			logger.Debug("Sent report successfully")
 		}
 
 		if resp != nil {
@@ -48,25 +53,7 @@ func collect() {
 	}
 }
 
-func initConfigs() {
+func initDefaultConfigs() {
 	// Set defaults in case that the conf file is not found
 	viper.SetDefault("servers", []string{"http://127.0.0.1:9200"})
-
-	// Set filename
-	viper.SetConfigName("config")
-	viper.SetConfigType("json")
-
-	// Set multiple paths to search for the conf file, including the running dir
-	viper.AddConfigPath(".")
-	dir, err := os.Getwd()
-	if err == nil {
-		viper.AddConfigPath(dir)
-		viper.AddConfigPath(dir + "/agent")
-	}
-
-	//Read config
-	err = viper.ReadInConfig() // Find and read the config file
-	if err != nil {            // Handle errors reading the config file
-		fmt.Printf("Error reading configs file: %s. Using default keys. \n", err)
-	}
 }
