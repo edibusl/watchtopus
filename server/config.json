@@ -1,0 +1,8 @@
+{
+  "elastics": {
+    "host": "http://127.0.0.1:9200"
+  },
+  "listener": {
+    "port": 3000
+  }
+}
