@@ -24,7 +24,7 @@ func main() {
 func collect() {
 	for {
 		// Collect metrics in parallel threads (using goroutines)
-		// Use a channel to blocking wait for all threads to return the metrics data
+		// Use a channel to blocking wait for all threads to return the metrics utils
 		ch := make(chan []orm.MetricFloat)
 		go collectors.CollectCpu(ch)
 		go collectors.CollectMem(ch)

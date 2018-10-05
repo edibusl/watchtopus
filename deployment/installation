@@ -3,7 +3,16 @@ sudo docker rm -f kibana;sudo docker run -d --name kibana -p 5601:5601 -e ELASTI
 sudo docker run -d --name=grafana -p 3000:3000 grafana/grafana
 
 
-Metrics mapping:
+Mappings:
+PUT hosts
+PUT hosts/_mapping/_doc
+{
+  "properties": {
+
+  }
+}
+
+PUT metrics
 PUT metrics/_mapping/_doc
 {
 	"properties":{
