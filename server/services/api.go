@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	_ "fmt"
 	"github.com/go-martini/martini"
+	"github.com/martini-contrib/cors"
 	"github.com/spf13/viper"
 	"io/ioutil"
 	"log"
@@ -22,6 +23,15 @@ func StartApiServer() {
 
 	// Disable martini logger
 	m.Logger(log.New(ioutil.Discard, "", 0))
+
+	//Enable CORS - Preflight requests
+	m.Use(cors.Allow(&cors.Options{
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"PUT", "PATCH"},
+		AllowHeaders:     []string{"Origin", "Content-Type"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+	}))
 
 	// Start listening
 	port := viper.GetInt("listener.port")
@@ -74,13 +84,15 @@ func getHostsList(res http.ResponseWriter, req *http.Request) {
 	hosts := hostsGetList(req.Context())
 	hostsJson, _ := json.Marshal(hosts)
 
-	res.Write(hostsJson)
 	res.WriteHeader(http.StatusOK)
+	res.Write(hostsJson)
 }
 
-func getHostConfigs(params martini.Params) (int, string) {
+func getHostConfigs(params martini.Params, res http.ResponseWriter) {
 	configs := hostsGetHostConfigs(params["host"], context.Background())
-	return http.StatusOK, configs
+
+	res.WriteHeader(http.StatusOK)
+	res.Write([]byte(configs))
 }
 
 func setHostConfigs(req *http.Request, params martini.Params) (int, string) {
@@ -89,9 +101,13 @@ func setHostConfigs(req *http.Request, params martini.Params) (int, string) {
 
 	//Save host in hosts list
 	err := hostsSetHostConfigs(params["host"], sBody, context.Background())
-	if err != nil {
+	if err == nil {
 		return http.StatusOK, "{}"
 	} else {
 		return http.StatusBadRequest, "{}"
 	}
+}
+
+func addDefaultHeaders(res http.ResponseWriter) {
+	res.Header().Set("Access-Control-Allow-Origin", "*")
 }

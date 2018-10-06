@@ -23,5 +23,5 @@ func main() {
 func initDefaultConfigs() {
 	// Set defaults in case that the conf file is not found
 	viper.SetDefault("elastics.host", "http://127.0.0.1:9200")
-	viper.SetDefault("listener.port", 3000)
+	viper.SetDefault("listener.port", 3001)
 }

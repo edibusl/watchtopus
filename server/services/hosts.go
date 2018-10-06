@@ -106,6 +106,8 @@ func hostsSetHostConfigs(host string, configs string, ctx context.Context) error
 		logger.Errorf("Error while saving host configs of host %s. Error: %s", host, err)
 
 		return err
+	} else {
+		logger.Noticef("Saved configs for host %s", host)
 	}
 
 	return nil
