@@ -9,5 +9,6 @@ type MetricFloat struct {
 	SubCategory string    `json:"subcategory"` //user, system, idle
 	Component   string    `json:"component"`   //Optional - cpu0, cpu1, cpu2, etc..
 	Timestamp   time.Time `json:"timestamp"`
-	Host        string    `json:"host"`
+	HostId      string    `json:"hostId"`
+	HostIp      string    `json:"hostIp"`
 }

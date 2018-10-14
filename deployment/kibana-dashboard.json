@@ -6,12 +6,12 @@
       "title": "Single host monitoring",
       "hits": 0,
       "description": "",
-      "panelsJSON": "[{\"embeddableConfig\":{\"vis\":{\"legendOpen\":false}},\"gridData\":{\"h\":3,\"i\":\"1\",\"w\":6,\"x\":0,\"y\":0},\"id\":\"aebca030-c3e3-11e8-a157-19d597e45f64\",\"panelIndex\":\"1\",\"type\":\"visualization\",\"version\":\"6.2.4\"},{\"gridData\":{\"h\":3,\"i\":\"2\",\"w\":6,\"x\":6,\"y\":0},\"id\":\"3648bfd0-c3e3-11e8-a157-19d597e45f64\",\"panelIndex\":\"2\",\"type\":\"visualization\",\"version\":\"6.2.4\"},{\"gridData\":{\"h\":3,\"i\":\"3\",\"w\":6,\"x\":0,\"y\":3},\"id\":\"123a8820-c425-11e8-baa4-9f76367e6446\",\"panelIndex\":\"3\",\"type\":\"visualization\",\"version\":\"6.2.4\"}]",
+      "panelsJSON": "[{\"panelIndex\":\"1\",\"gridData\":{\"x\":0,\"y\":0,\"w\":6,\"h\":3,\"i\":\"1\"},\"embeddableConfig\":{\"vis\":{\"legendOpen\":false}},\"id\":\"aebca030-c3e3-11e8-a157-19d597e45f64\",\"type\":\"visualization\",\"version\":\"6.2.4\"},{\"panelIndex\":\"2\",\"gridData\":{\"x\":6,\"y\":0,\"w\":6,\"h\":3,\"i\":\"2\"},\"id\":\"3648bfd0-c3e3-11e8-a157-19d597e45f64\",\"type\":\"visualization\",\"version\":\"6.2.4\"},{\"panelIndex\":\"3\",\"gridData\":{\"x\":0,\"y\":3,\"w\":6,\"h\":3,\"i\":\"3\"},\"id\":\"123a8820-c425-11e8-baa4-9f76367e6446\",\"type\":\"visualization\",\"version\":\"6.2.4\"},{\"panelIndex\":\"4\",\"gridData\":{\"x\":6,\"y\":3,\"w\":6,\"h\":7,\"i\":\"4\"},\"version\":\"6.2.4\",\"type\":\"visualization\",\"id\":\"af0cc760-cfe9-11e8-b712-59218e3d6adc\"}]",
       "optionsJSON": "{\"darkTheme\":false,\"hidePanelTitles\":false,\"useMargins\":true}",
       "version": 1,
       "timeRestore": false,
       "kibanaSavedObjectMeta": {
-        "searchSourceJSON": "{\"query\":{\"language\":\"lucene\",\"query\":\"\"},\"filter\":[{\"meta\":{\"index\":\"5e5347f0-c54d-11e8-bc3b-153ce296127d\",\"negate\":false,\"disabled\":false,\"alias\":null,\"type\":\"phrase\",\"key\":\"host\",\"value\":\"127.0.0.1\",\"params\":{\"query\":\"127.0.0.1\",\"type\":\"phrase\"}},\"query\":{\"match\":{\"host\":{\"query\":\"127.0.0.1\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}}],\"highlightAll\":true,\"version\":true}"
+        "searchSourceJSON": "{\"query\":{\"language\":\"lucene\",\"query\":\"\"},\"filter\":[{\"$state\":{\"store\":\"appState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"index\":\"c72550e0-cec9-11e8-9199-0fd83f715a25\",\"key\":\"hostIp\",\"negate\":false,\"params\":{\"query\":\"127.0.0.1\",\"type\":\"phrase\"},\"type\":\"phrase\",\"value\":\"127.0.0.1\"},\"query\":{\"match\":{\"hostIp\":{\"query\":\"127.0.0.1\",\"type\":\"phrase\"}}}}],\"highlightAll\":true,\"version\":true}"
       }
     },
     "_meta": {
@@ -28,7 +28,7 @@
       "description": "",
       "version": 1,
       "kibanaSavedObjectMeta": {
-        "searchSourceJSON": "{\"index\":\"5e5347f0-c54d-11e8-bc3b-153ce296127d\",\"filter\":[{\"meta\":{\"index\":\"a282c260-c3dc-11e8-a157-19d597e45f64\",\"negate\":false,\"disabled\":false,\"alias\":null,\"type\":\"phrase\",\"key\":\"subcategory\",\"value\":\"user\",\"params\":{\"query\":\"user\",\"type\":\"phrase\"}},\"query\":{\"match\":{\"subcategory\":{\"query\":\"user\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}}],\"query\":{\"query\":\"\",\"language\":\"lucene\"}}"
+        "searchSourceJSON": "{\"index\":\"d53c47e0-cfe8-11e8-b712-59218e3d6adc\",\"filter\":[{\"meta\":{\"index\":\"a282c260-c3dc-11e8-a157-19d597e45f64\",\"negate\":false,\"disabled\":false,\"alias\":null,\"type\":\"phrase\",\"key\":\"subcategory\",\"value\":\"user\",\"params\":{\"query\":\"user\",\"type\":\"phrase\"}},\"query\":{\"match\":{\"subcategory\":{\"query\":\"user\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}}],\"query\":{\"query\":\"\",\"language\":\"lucene\"}}"
       }
     },
     "_meta": {
@@ -45,7 +45,7 @@
       "description": "",
       "version": 1,
       "kibanaSavedObjectMeta": {
-        "searchSourceJSON": "{\"index\":\"5e5347f0-c54d-11e8-bc3b-153ce296127d\",\"filter\":[{\"meta\":{\"index\":\"a069c540-c40f-11e8-baa4-9f76367e6446\",\"negate\":false,\"disabled\":false,\"alias\":null,\"type\":\"phrase\",\"key\":\"category\",\"value\":\"mem\",\"params\":{\"query\":\"mem\",\"type\":\"phrase\"}},\"query\":{\"match\":{\"category\":{\"query\":\"mem\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}}],\"query\":{\"query\":\"\",\"language\":\"lucene\"}}"
+        "searchSourceJSON": "{\"index\":\"d53c47e0-cfe8-11e8-b712-59218e3d6adc\",\"filter\":[{\"meta\":{\"index\":\"a069c540-c40f-11e8-baa4-9f76367e6446\",\"negate\":false,\"disabled\":false,\"alias\":null,\"type\":\"phrase\",\"key\":\"category\",\"value\":\"mem\",\"params\":{\"query\":\"mem\",\"type\":\"phrase\"}},\"query\":{\"match\":{\"category\":{\"query\":\"mem\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}}],\"query\":{\"query\":\"\",\"language\":\"lucene\"}}"
       }
     },
     "_meta": {
@@ -62,7 +62,24 @@
       "description": "",
       "version": 1,
       "kibanaSavedObjectMeta": {
-        "searchSourceJSON": "{\"index\":\"5e5347f0-c54d-11e8-bc3b-153ce296127d\",\"filter\":[{\"meta\":{\"index\":\"a069c540-c40f-11e8-baa4-9f76367e6446\",\"negate\":false,\"disabled\":false,\"alias\":null,\"type\":\"phrase\",\"key\":\"category\",\"value\":\"cpu\",\"params\":{\"query\":\"cpu\",\"type\":\"phrase\"}},\"query\":{\"match\":{\"category\":{\"query\":\"cpu\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}}],\"query\":{\"language\":\"lucene\",\"query\":\"\"}}"
+        "searchSourceJSON": "{\"index\":\"d53c47e0-cfe8-11e8-b712-59218e3d6adc\",\"filter\":[{\"meta\":{\"index\":\"a069c540-c40f-11e8-baa4-9f76367e6446\",\"negate\":false,\"disabled\":false,\"alias\":null,\"type\":\"phrase\",\"key\":\"category\",\"value\":\"cpu\",\"params\":{\"query\":\"cpu\",\"type\":\"phrase\"}},\"query\":{\"match\":{\"category\":{\"query\":\"cpu\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}}],\"query\":{\"language\":\"lucene\",\"query\":\"\"}}"
+      }
+    },
+    "_meta": {
+      "savedObjectVersion": 2
+    }
+  },
+  {
+    "_id": "af0cc760-cfe9-11e8-b712-59218e3d6adc",
+    "_type": "visualization",
+    "_source": {
+      "title": "Pings to other hosts",
+      "visState": "{\"title\":\"Pings to other hosts\",\"type\":\"line\",\"params\":{\"addLegend\":true,\"addTimeMarker\":false,\"addTooltip\":true,\"categoryAxes\":[{\"id\":\"CategoryAxis-1\",\"labels\":{\"show\":true,\"truncate\":100},\"position\":\"bottom\",\"scale\":{\"type\":\"linear\"},\"show\":true,\"style\":{},\"title\":{},\"type\":\"category\"}],\"grid\":{\"categoryLines\":false,\"style\":{\"color\":\"#eee\"}},\"legendPosition\":\"right\",\"seriesParams\":[{\"data\":{\"id\":\"1\",\"label\":\"Max val\"},\"drawLinesBetweenPoints\":true,\"mode\":\"normal\",\"show\":\"true\",\"showCircles\":true,\"type\":\"histogram\",\"valueAxis\":\"ValueAxis-1\"}],\"times\":[],\"type\":\"line\",\"valueAxes\":[{\"id\":\"ValueAxis-1\",\"labels\":{\"filter\":false,\"rotate\":0,\"show\":false,\"truncate\":100},\"name\":\"LeftAxis-1\",\"position\":\"left\",\"scale\":{\"mode\":\"normal\",\"type\":\"linear\"},\"show\":true,\"style\":{},\"title\":{\"text\":\"Max val\"},\"type\":\"value\"}]},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"max\",\"schema\":\"metric\",\"params\":{\"field\":\"val\"}},{\"id\":\"2\",\"enabled\":true,\"type\":\"date_histogram\",\"schema\":\"segment\",\"params\":{\"field\":\"timestamp\",\"interval\":\"s\",\"customInterval\":\"2h\",\"min_doc_count\":1,\"extended_bounds\":{}}},{\"id\":\"3\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"split\",\"params\":{\"field\":\"component\",\"otherBucket\":false,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\",\"row\":true}}]}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"d53c47e0-cfe8-11e8-b712-59218e3d6adc\",\"filter\":[{\"$state\":{\"store\":\"appState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"index\":\"d53c47e0-cfe8-11e8-b712-59218e3d6adc\",\"key\":\"category\",\"negate\":false,\"params\":{\"query\":\"custom\",\"type\":\"phrase\"},\"type\":\"phrase\",\"value\":\"custom\"},\"query\":{\"match\":{\"category\":{\"query\":\"custom\",\"type\":\"phrase\"}}}},{\"$state\":{\"store\":\"appState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"index\":\"d53c47e0-cfe8-11e8-b712-59218e3d6adc\",\"key\":\"subcategory\",\"negate\":false,\"params\":{\"query\":\"ping\",\"type\":\"phrase\"},\"type\":\"phrase\",\"value\":\"ping\"},\"query\":{\"match\":{\"subcategory\":{\"query\":\"ping\",\"type\":\"phrase\"}}}}],\"query\":{\"language\":\"lucene\",\"query\":\"\"}}"
       }
     },
     "_meta": {

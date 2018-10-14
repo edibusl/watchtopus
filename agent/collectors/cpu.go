@@ -4,6 +4,7 @@ import (
 	"fmt"
 	linuxproc "github.com/c9s/goprocinfo/linux"
 	"github.com/op/go-logging"
+	"github.com/spf13/viper"
 	"math"
 	"time"
 	"watchtopus/orm"
@@ -51,6 +52,7 @@ func CollectCpu(ch chan []orm.MetricFloat) {
 		calcPercent := func(val, total uint64) float64 { return math.Trunc(float64(val)/float64(total)*100.0*100.0) / 100.0 }
 
 		metrics = append(metrics, orm.MetricFloat{
+			HostId:      viper.GetString("hostId"),
 			Key:         fmt.Sprintf("cpu.user.%s", diff.Id),
 			Val:         calcPercent(diff.User, total),
 			Category:    "cpu",
@@ -58,6 +60,7 @@ func CollectCpu(ch chan []orm.MetricFloat) {
 			Component:   diff.Id})
 
 		metrics = append(metrics, orm.MetricFloat{
+			HostId:      viper.GetString("hostId"),
 			Key:         fmt.Sprintf("cpu.system.%s", diff.Id),
 			Val:         calcPercent(diff.System, total),
 			Category:    "cpu",

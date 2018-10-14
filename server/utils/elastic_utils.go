@@ -2,6 +2,7 @@ package utils
 
 import (
 	"context"
+	"encoding/json"
 	"github.com/olivere/elastic"
 	"github.com/op/go-logging"
 	"github.com/spf13/viper"
@@ -45,4 +46,22 @@ func InitElasticsearch() {
 
 func GetESClient() *elastic.Client {
 	return _esClient
+}
+
+func GetBodyKey(docSource *json.RawMessage, key string) string {
+	var value string
+
+	// json.RawMessage is just a byte[], so we need to marshal it to a string map
+	var objmap map[string]*json.RawMessage
+	err := json.Unmarshal(*docSource, &objmap)
+
+	// Each key in the map is again a json.RawMessage, so we need to check if the key exists
+	// and then marshal again the value
+	if err == nil {
+		if _, ok := objmap[key]; ok {
+			json.Unmarshal(*objmap[key], &value)
+		}
+	}
+
+	return value
 }

@@ -34,8 +34,15 @@ PUT metrics/_mapping/_doc
 		"timestamp":{
 		  "type": "date"
 		},
-		"host": {
+		"hostId": {
+		    "type": "keyword"
+		},
+		"hostIp": {
 		    "type": "keyword"
 		}
 	}
 }
+
+
+# For agent, ping library
+sudo sysctl -w net.ipv4.ping_group_range="0   2147483647"

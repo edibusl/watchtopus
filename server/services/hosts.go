@@ -41,8 +41,8 @@ func hostsSave(host string, ctx context.Context) {
 	}
 }
 
-func hostsGetList(ctx context.Context) []string {
-	hosts := make([]string, 0)
+func hostsGetList(ctx context.Context) []map[string]string {
+	hosts := make([]map[string]string, 0)
 
 	// Search with a term query
 	searchResult, err := utils.GetESClient().Search().
@@ -50,18 +50,20 @@ func hostsGetList(ctx context.Context) []string {
 		Type("_doc").
 		Query(elastic.NewMatchAllQuery()). // specify the query
 		Pretty(true).
-		StoredFields("").
 		Do(ctx)
 
 	if err != nil {
 		// Handle error
-		logger.Errorf("Error while fetching hosts list from ES %s", err)
+		logger.Errorf("Error while fetching hosts list from ES %s", err.Error())
 	}
 
 	if searchResult.Hits.TotalHits > 0 {
 		// Iterate through results
 		for _, hit := range searchResult.Hits.Hits {
-			hosts = append(hosts, hit.Id)
+			hosts = append(hosts, map[string]string{
+				"hostId":   hit.Id,
+				"hostName": utils.GetBodyKey(hit.Source, "hostName"),
+			})
 		}
 	} else {
 		// No hits
@@ -80,7 +82,7 @@ func hostsGetHostConfigs(host string, ctx context.Context) string {
 
 	if err != nil {
 		// Handle error
-		logger.Errorf("Error while getting host configs of host %s. Error: %s", host, err)
+		logger.Errorf("Error while getting host configs of host %s. Error: %s", host, err.Error())
 		panic(err)
 	}
 
@@ -103,7 +105,7 @@ func hostsSetHostConfigs(host string, configs string, ctx context.Context) error
 
 	if err != nil {
 		// Handle error
-		logger.Errorf("Error while saving host configs of host %s. Error: %s", host, err)
+		logger.Errorf("Error while saving host configs of host %s. Error: %s", host, err.Error())
 
 		return err
 	} else {

@@ -1,7 +1,9 @@
 package infra
 
 import (
+	"fmt"
 	"github.com/op/go-logging"
+	"github.com/satori/go.uuid"
 	"github.com/spf13/viper"
 	"os"
 )
@@ -48,9 +50,20 @@ func InitConfigs(componentName string) {
 		viper.AddConfigPath(dir + "/" + componentName)
 	}
 
-	//Read config
+	// Read config
 	err = viper.ReadInConfig() // Find and read the config file
 	if err != nil {            // Handle errors reading the config file
 		logger.Warningf("Error reading configs file: %s. Using default keys. \n", err)
+	}
+
+	// Check if hostId exists in configs
+	hostId := viper.GetString("hostId")
+	if hostId == "" {
+		// Generate a random UUID, and take the first 7 chars as the hostId
+		uuid := fmt.Sprintf("%s", uuid.Must(uuid.NewV4()))[1:8]
+		viper.Set("hostId", uuid)
+
+		// Save back the config file
+		viper.WriteConfig()
 	}
 }

@@ -1,6 +1,11 @@
 package infra
 
-import "regexp"
+import (
+	"encoding/json"
+	"io/ioutil"
+	"net/http"
+	"regexp"
+)
 
 var regexHostWithPort = regexp.MustCompile(`[:]\d+`)
 
@@ -16,4 +21,24 @@ func FindInArray(haystack []string, needle string) bool {
 	}
 
 	return false
+}
+
+func ParseResponseBody(resp *http.Response) map[string]*json.RawMessage {
+	// Read body
+	b, err := ioutil.ReadAll(resp.Body)
+	defer resp.Body.Close()
+	if err != nil {
+		// TODO
+		return nil
+	}
+
+	// Unmarshal
+	var msg map[string]*json.RawMessage
+	err = json.Unmarshal(b, &msg)
+	if err != nil {
+		//TODO
+		return nil
+	}
+
+	return msg
 }

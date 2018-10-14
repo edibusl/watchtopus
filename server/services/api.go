@@ -57,13 +57,14 @@ func report(res http.ResponseWriter, req *http.Request) {
 	logger.Debugf("Received utils: %s", data[0].Key)
 
 	//Parse host that sent this report
-	hostName := infra.ParseHost(req.RemoteAddr)
+	hostIp := infra.ParseHost(req.RemoteAddr)
 
 	//Save this metric as a document in the "metrics" index in ES
+	var hostId string
 	for _, metric := range data {
 		// Set some more values for this doc
 		metric.Timestamp = time.Now()
-		metric.Host = hostName
+		metric.HostIp = hostIp
 
 		// Save this metrics as a doc in ES "metrics" index
 		res, err := utils.GetESClient().Index().Index("metrics").Type("_doc").BodyJson(metric).Do(req.Context())
@@ -71,10 +72,14 @@ func report(res http.ResponseWriter, req *http.Request) {
 			logger.Error(err)
 		}
 		logger.Debugf("Indexed %s to index %s\n", res.Id, res.Index)
+
+		hostId = metric.HostId
 	}
 
-	//Save host in hosts list
-	hostsSave(hostName, req.Context())
+	//Save host in hosts list (if there was at least once metric)
+	if hostId != "" {
+		hostsSave(hostId, req.Context())
+	}
 
 	res.WriteHeader(http.StatusOK)
 }

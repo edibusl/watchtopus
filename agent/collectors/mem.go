@@ -2,6 +2,7 @@ package collectors
 
 import (
 	linuxproc "github.com/c9s/goprocinfo/linux"
+	"github.com/spf13/viper"
 	"watchtopus/orm"
 )
 
@@ -16,6 +17,7 @@ func CollectMem(ch chan []orm.MetricFloat) {
 	}
 
 	metrics = append(metrics, orm.MetricFloat{
+		HostId:      viper.GetString("hostId"),
 		Key:         "mem.total",
 		Val:         float64(stat1.MemTotal),
 		Category:    "mem",
@@ -23,6 +25,7 @@ func CollectMem(ch chan []orm.MetricFloat) {
 		Component:   ""})
 
 	metrics = append(metrics, orm.MetricFloat{
+		HostId:      viper.GetString("hostId"),
 		Key:         "mem.free",
 		Val:         float64(stat1.MemFree),
 		Category:    "mem",
@@ -32,6 +35,7 @@ func CollectMem(ch chan []orm.MetricFloat) {
 	// Calculation of used memory:
 	// https://stackoverflow.com/questions/41224738/how-to-calculate-system-memory-usage-from-proc-meminfo-like-htop
 	metrics = append(metrics, orm.MetricFloat{
+		HostId:      viper.GetString("hostId"),
 		Key:         "mem.used",
 		Val:         float64(stat1.MemTotal - stat1.MemFree),
 		Category:    "mem",
