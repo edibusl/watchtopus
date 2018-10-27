@@ -1,0 +1,59 @@
+version: '2'
+services:
+
+  watchtopus-elastics:
+#    image: 312452674585.dkr.ecr.eu-central-1.amazonaws.com/watchtopus-elastics:latest
+    image: watchtopus-elastics:latest
+    container_name: watchtopus-elastics
+    ports:
+    - "9200:9200"
+    - "9300:9300"
+    logging:
+      options:
+        max-size: 50m
+
+  watchtopus:
+#    image: 312452674585.dkr.ecr.eu-central-1.amazonaws.com/watchtopus:latest
+    image: watchtopus:latest
+    mem_limit: 214748364800
+    ports:
+    - "3001:3001"
+    container_name: watchtopus
+    logging:
+      options:
+        max-size: 50m
+    environment:
+      - LOG_LEVEL=INFO
+    links:
+      - watchtopus-elastics
+    depends_on:
+      - watchtopus-elastics
+
+  watchtopus-kibana:
+    image: docker.elastic.co/kibana/kibana-oss:6.2.4
+    container_name: watchtopus-kibana
+    ports:
+    - "5601:5601"
+    environment:
+    - ELASTICSEARCH_URL=http://watchtopus-elastics:9200
+    logging:
+      options:
+        max-size: 50m
+    links:
+    - watchtopus-elastics
+    depends_on:
+    - watchtopus-elastics
+
+  watchtopus-ui:
+    #    image: 312452674585.dkr.ecr.eu-central-1.amazonaws.com/watchtopus-ui:latest
+    image: watchtopus-ui:latest
+    container_name: watchtopus-ui
+    ports:
+    - "3000:3000"
+    logging:
+      options:
+        max-size: 50m
+    links:
+    - watchtopus
+    depends_on:
+    - watchtopus

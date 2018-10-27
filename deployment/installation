@@ -1,8 +1,21 @@
+#####################################
+Run whole system with docker compose
+#####################################
+cd ~/go/src/watchtopus/deployment
+sudo docker-compose up -d
+
+
+##################################
+# Running local separate services
+##################################
 sudo docker rm -f elastics; sudo docker run -d --name elastics -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch-oss:6.2.4
 sudo docker rm -f kibana;sudo docker run -d --name kibana -p 5601:5601 -e ELASTICSEARCH_URL="http://172.17.0.1:9200" docker.elastic.co/kibana/kibana-oss:6.2.4
 sudo docker run -d --name=grafana -p 3000:3000 grafana/grafana
 
 
+###################################################
+# Configuring mappings manually for local debugging
+###################################################
 Mappings:
 PUT hosts
 PUT hosts/_mapping/_doc
@@ -44,5 +57,7 @@ PUT metrics/_mapping/_doc
 }
 
 
+##########################
 # For agent, ping library
+##########################
 sudo sysctl -w net.ipv4.ping_group_range="0   2147483647"

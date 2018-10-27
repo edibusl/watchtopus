@@ -1,1 +1,4 @@
 .idea/*
+deployment/watchtopus/infra
+deployment/watchtopus/orm
+deployment/watchtopus/server

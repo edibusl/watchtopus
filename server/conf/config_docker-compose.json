@@ -1,0 +1,8 @@
+{
+  "elastics": {
+    "host": "http://watchtopus-elastics:9200"
+  },
+  "listener": {
+    "port": 3001
+  }
+}

@@ -47,7 +47,7 @@ func InitConfigs(componentName string) {
 	dir, err := os.Getwd()
 	if err == nil {
 		viper.AddConfigPath(dir)
-		viper.AddConfigPath(dir + "/" + componentName)
+		viper.AddConfigPath(dir + "/" + componentName + "/conf")
 	}
 
 	// Read config

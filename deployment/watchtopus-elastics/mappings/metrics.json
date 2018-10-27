@@ -1,0 +1,33 @@
+{
+  "mappings": {
+    "_doc": {
+      "properties": {
+        "key":{
+          "type":"keyword"
+        },
+        "val":{
+          "type":"float"
+        },
+        "category":{
+          "type":"keyword"
+        },
+        "subcategory":{
+          "type":"keyword"
+        },
+        "component":{
+          "type":"keyword"
+        },
+        "timestamp":{
+          "type": "date"
+        },
+        "hostId": {
+          "type": "keyword"
+        },
+        "hostIp": {
+          "type": "keyword"
+        }
+      }
+    }
+  }
+}
+

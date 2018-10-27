@@ -1,0 +1,18 @@
+FROM docker.elastic.co/elasticsearch/elasticsearch-oss:6.2.4
+
+ARG CACHE_DATE=2018-10-27
+
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+COPY elasticsearch.yml config/elasticsearch.yml
+COPY setup.sh config/setup.sh
+COPY mappings/* config/
+RUN mkdir utils
+COPY wait-for-it.sh utils/wait-for-it.sh
+
+USER root
+RUN chmod +x /docker-entrypoint.sh utils/wait-for-it.sh config/setup.sh
+RUN chown -R elasticsearch:elasticsearch /docker-entrypoint.sh utils/wait-for-it.sh config/setup.sh
+
+USER elasticsearch
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["/usr/share/elasticsearch/bin/elasticsearch"]

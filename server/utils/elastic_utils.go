@@ -15,11 +15,9 @@ var logger = logging.MustGetLogger("watchtopus")
 func InitElasticsearch() {
 	_context = context.Background()
 
-	// Obtain a client and connect to the default Elasticsearch installation
-	// on 127.0.0.1:9200. Of course you can configure your client to connect
-	// to other hosts and configure it in various other ways.
+	// Obtain a client and connect to the Elasticsearch  server
 	var err error
-	_esClient, err = elastic.NewClient()
+	_esClient, err = elastic.NewClient(elastic.SetURL(viper.GetString("elastics.host")))
 	if err != nil {
 		// Handle error
 		panic(err)

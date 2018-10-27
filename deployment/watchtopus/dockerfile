@@ -1,0 +1,20 @@
+FROM golang:1.8
+
+RUN go get github.com/op/go-logging
+RUN go get github.com/spf13/viper
+RUN go get github.com/c9s/goprocinfo/linux
+RUN go get github.com/tatsushid/go-fastping
+RUN go get github.com/satori/go.uuid
+RUN go get github.com/go-martini/martini
+RUN go get github.com/martini-contrib/cors
+RUN go get github.com/olivere/elastic
+
+ARG CACHE_DATE=2018-10-27
+
+ADD . /go/src/watchtopus/.
+
+WORKDIR /go/src/watchtopus
+
+# Wait 10 seconds before starting so that elasticsearch will be up
+# TODO - Fix that in code to start even if elastic is down and wait for it to be up
+CMD sleep 10 && go run ./server/main.go

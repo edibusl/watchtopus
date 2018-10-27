@@ -23,6 +23,8 @@ func main() {
 	fetchHostConfigsFromServer()
 	go fetchHostConfigsPeriodically()
 
+	logger.Notice("Agent started successfully. Collecting metrics.")
+
 	collect()
 }
 
@@ -72,9 +74,14 @@ func fetchHostConfigsPeriodically() {
 }
 
 func fetchHostConfigsFromServer() {
-	resp, err := http.Get(fmt.Sprintf("%s/hosts/%s", getBaseUrl(), viper.GetString("hostId")))
+	url := fmt.Sprintf("%s/hosts/%s", getBaseUrl(), viper.GetString("hostId"))
+	resp, err := http.Get(url)
 	if err != nil || (resp != nil && resp.StatusCode != 200) {
-		logger.Errorf("An error occurred: %s\n", err.Error())
+		if err != nil {
+			logger.Errorf("An error occurred: %s\n", err.Error())
+		} else {
+			logger.Warningf("An error occurred. Status: %s\n", resp.Status)
+		}
 
 		return
 	}

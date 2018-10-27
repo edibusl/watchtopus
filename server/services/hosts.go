@@ -6,6 +6,7 @@ import (
 	_ "fmt"
 	"github.com/olivere/elastic"
 	"github.com/op/go-logging"
+	"github.com/pkg/errors"
 	"watchtopus/infra"
 	"watchtopus/server/utils"
 )
@@ -73,7 +74,7 @@ func hostsGetList(ctx context.Context) []map[string]string {
 	return hosts
 }
 
-func hostsGetHostConfigs(host string, ctx context.Context) string {
+func hostsGetHostConfigs(host string, ctx context.Context) (string, error) {
 	res, err := utils.GetESClient().Get().
 		Index("hosts").
 		Type("_doc").
@@ -81,9 +82,13 @@ func hostsGetHostConfigs(host string, ctx context.Context) string {
 		Do(ctx)
 
 	if err != nil {
-		// Handle error
-		logger.Errorf("Error while getting host configs of host %s. Error: %s", host, err.Error())
-		panic(err)
+		if elastic.IsNotFound(err) {
+			return "", errors.New("Host not found")
+		} else {
+			// Handle error
+			logger.Errorf("Error while getting host configs of host %s. Error: %s", host, err.Error())
+			panic(err)
+		}
 	}
 
 	// Convert document body to string
@@ -92,7 +97,7 @@ func hostsGetHostConfigs(host string, ctx context.Context) string {
 		panic(err)
 	}
 
-	return string(j)
+	return string(j), nil
 }
 
 func hostsSetHostConfigs(host string, configs string, ctx context.Context) error {

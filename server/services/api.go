@@ -94,9 +94,13 @@ func getHostsList(res http.ResponseWriter, req *http.Request) {
 }
 
 func getHostConfigs(params martini.Params, res http.ResponseWriter) {
-	configs := hostsGetHostConfigs(params["host"], context.Background())
+	configs, err := hostsGetHostConfigs(params["host"], context.Background())
 
-	res.WriteHeader(http.StatusOK)
+	if err == nil {
+		res.WriteHeader(http.StatusOK)
+	} else {
+		res.WriteHeader(http.StatusNotFound)
+	}
 	res.Write([]byte(configs))
 }
 
