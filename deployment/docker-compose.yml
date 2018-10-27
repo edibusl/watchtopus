@@ -2,8 +2,8 @@ version: '2'
 services:
 
   watchtopus-elastics:
-#    image: 312452674585.dkr.ecr.eu-central-1.amazonaws.com/watchtopus-elastics:latest
-    image: watchtopus-elastics:latest
+    image: 312452674585.dkr.ecr.eu-central-1.amazonaws.com/watchtopus-elastics:latest
+    #image: watchtopus-elastics:latest
     container_name: watchtopus-elastics
     ports:
     - "9200:9200"
@@ -13,8 +13,8 @@ services:
         max-size: 50m
 
   watchtopus:
-#    image: 312452674585.dkr.ecr.eu-central-1.amazonaws.com/watchtopus:latest
-    image: watchtopus:latest
+    image: 312452674585.dkr.ecr.eu-central-1.amazonaws.com/watchtopus:latest
+    #image: watchtopus:latest
     mem_limit: 214748364800
     ports:
     - "3001:3001"
@@ -45,8 +45,8 @@ services:
     - watchtopus-elastics
 
   watchtopus-ui:
-    #    image: 312452674585.dkr.ecr.eu-central-1.amazonaws.com/watchtopus-ui:latest
-    image: watchtopus-ui:latest
+    image: 312452674585.dkr.ecr.eu-central-1.amazonaws.com/watchtopus-ui:latest
+    #image: watchtopus-ui:latest
     container_name: watchtopus-ui
     ports:
     - "3000:3000"
