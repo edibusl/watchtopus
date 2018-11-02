@@ -1,4 +1,4 @@
-FROM docker.elastic.co/elasticsearch/elasticsearch-oss:6.2.4
+FROM docker.elastic.co/elasticsearch/elasticsearch:6.4.2
 
 ARG CACHE_DATE=2018-10-27
 

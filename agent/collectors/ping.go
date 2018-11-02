@@ -74,9 +74,11 @@ func makePing(hostDnsOrIp string, ch chan PingResponse) {
 	} else {
 		// It's not an IP address, probably a DNS. try to lookup the IP
 		hostName, err := net.LookupHost(hostDnsOrIp)
-		if len(hostName) == 0 || err != nil {
-			logger.Errorf("Bad hostname in ping list configuration '%s': %s", hostDnsOrIp, err.Error())
+		if hostName == nil || len(hostName) == 0 || err != nil {
+			logger.Warningf("Bad hostname in ping list configuration '%s': %s", hostDnsOrIp, err.Error())
 			ch <- PingResponse{host: hostDnsOrIp, success: false}
+
+			return
 		}
 
 		ip = hostName[0]

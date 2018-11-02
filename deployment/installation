@@ -12,10 +12,8 @@ sudo docker-compose up -d
 ##################################
 # Running local separate services
 ##################################
-sudo docker rm -f elastics; sudo docker run -d --name elastics -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch-oss:6.2.4
-sudo docker rm -f kibana;sudo docker run -d --name kibana -p 5601:5601 -e ELASTICSEARCH_URL="http://172.17.0.1:9200" docker.elastic.co/kibana/kibana-oss:6.2.4
-sudo docker run -d --name=grafana -p 3000:3000 grafana/grafana
-
+sudo docker rm -f elastics; sudo docker run -d --name elastics -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" 312452674585.dkr.ecr.eu-central-1.amazonaws.com/watchtopus-elastics
+sudo docker rm -f kibana;sudo docker run -d --name kibana -p 5601:5601 -e ELASTICSEARCH_URL="http://172.17.0.1:9200" docker.elastic.co/kibana/kibana-oss:6.4.2
 
 ###################################################
 # Configuring mappings manually for local debugging
@@ -62,6 +60,18 @@ PUT metrics/_mapping/_doc
 
 
 ##########################
-# For agent, ping library
+# Agen installation
 ##########################
+wget https://dl.google.com/go/go1.11.1.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.11.1.linux-amd64.tar.gz
+
+sudo yum install git
+cd ~/go/src/
+git clone https://github.com/edibusl/watchtopus.git
+cd ~/go/src/watchtopus
+bash deployment/install_go_packages.sh
+
 sudo sysctl -w net.ipv4.ping_group_range="0   2147483647"
+
+cd ~/go/src/watchtopus
+go run ./agent/main.go &

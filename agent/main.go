@@ -50,7 +50,11 @@ func collect() {
 		// Send metrics JSON array to the server
 		resp, err := http.Post(getBaseUrl()+"/report", "application/json", bytes.NewBuffer(strJson))
 		if err != nil || (resp != nil && resp.StatusCode != 200) {
-			logger.Errorf("An error occurred: %s\n", err.Error())
+			if err != nil {
+				logger.Errorf("An error occurred: %s\n", err.Error())
+			} else {
+				logger.Warningf("An error occurred. Status: %s\n", resp.Status)
+			}
 		} else {
 			logger.Debug("Sent report successfully")
 		}
