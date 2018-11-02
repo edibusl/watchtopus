@@ -13,10 +13,15 @@ import (
 var logger = logging.MustGetLogger("watchtopus")
 
 func CollectCpu(ch chan []orm.MetricFloat) {
+	metrics := make([]orm.MetricFloat, 0)
+
 	// Read first sample
 	stat1, err := linuxproc.ReadStat("/proc/stat")
 	if err != nil {
 		logger.Fatal("Stat read failed")
+		ch <- metrics
+
+		return
 	}
 
 	// Wait
@@ -26,9 +31,10 @@ func CollectCpu(ch chan []orm.MetricFloat) {
 	stat2, err := linuxproc.ReadStat("/proc/stat")
 	if err != nil {
 		logger.Fatal("Stat read failed")
-	}
+		ch <- metrics
 
-	metrics := make([]orm.MetricFloat, 0)
+		return
+	}
 
 	// Go through all CPU cores
 	for i := 0; i < len(stat1.CPUStats); i++ {

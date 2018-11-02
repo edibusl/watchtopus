@@ -62,16 +62,21 @@ PUT metrics/_mapping/_doc
 ##########################
 # Agen installation
 ##########################
+# Install Go
 wget https://dl.google.com/go/go1.11.1.linux-amd64.tar.gz
 sudo tar -C /usr/local -xzf go1.11.1.linux-amd64.tar.gz
+echo "export PATH=\$PATH:/usr/local/go/bin" >> ~/.bashrc
 
+# Download watchtopus repository
 sudo yum install git
 cd ~/go/src/
 git clone https://github.com/edibusl/watchtopus.git
 cd ~/go/src/watchtopus
 bash deployment/install_go_packages.sh
 
+# Set ping  permissions
 sudo sysctl -w net.ipv4.ping_group_range="0   2147483647"
 
+# Compile and run the agent
 cd ~/go/src/watchtopus
 go run ./agent/main.go &

@@ -14,6 +14,10 @@ func CollectMem(ch chan []orm.MetricFloat) {
 	stat1, err := linuxproc.ReadMemInfo("/proc/meminfo")
 	if err != nil {
 		logger.Fatal("Stat read failed")
+
+		ch <- metrics
+
+		return
 	}
 
 	metrics = append(metrics, orm.MetricFloat{

@@ -15,6 +15,6 @@ ADD . /go/src/watchtopus/.
 
 WORKDIR /go/src/watchtopus
 
-# Wait 10 seconds before starting so that elasticsearch will be up
+# Wait 1 minute before starting so that elasticsearch will be up
 # TODO - Fix that in code to start even if elastic is down and wait for it to be up
-CMD sleep 10 && go run ./server/main.go
+CMD sleep 60 && go run ./server/main.go

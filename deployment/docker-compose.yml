@@ -30,7 +30,7 @@ services:
       - watchtopus-elastics
 
   watchtopus-kibana:
-    image: docker.elastic.co/kibana/kibana-oss:6.2.4
+    image: docker.elastic.co/kibana/kibana-oss:6.4.2
     container_name: watchtopus-kibana
     ports:
     - "5601:5601"

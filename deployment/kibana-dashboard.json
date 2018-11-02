@@ -1,5 +1,17 @@
 [
   {
+    "_id": "6d0dcd90-deb8-11e8-a110-f52a9a876cc4",
+    "_type": "index-pattern",
+    "_source": {
+      "title": "metrics*",
+      "timeFieldName": "timestamp",
+      "fields": "[{\"name\":\"_id\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":false},{\"name\":\"_index\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":false},{\"name\":\"_score\",\"type\":\"number\",\"count\":0,\"scripted\":false,\"searchable\":false,\"aggregatable\":false,\"readFromDocValues\":false},{\"name\":\"_source\",\"type\":\"_source\",\"count\":0,\"scripted\":false,\"searchable\":false,\"aggregatable\":false,\"readFromDocValues\":false},{\"name\":\"_type\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":false},{\"name\":\"category\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true},{\"name\":\"component\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true},{\"name\":\"hostId\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true},{\"name\":\"hostIp\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true},{\"name\":\"key\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true},{\"name\":\"subcategory\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true},{\"name\":\"timestamp\",\"type\":\"date\",\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true},{\"name\":\"val\",\"type\":\"number\",\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true}]"
+    },
+    "_meta": {
+      "savedObjectVersion": 2
+    }
+  },
+  {
     "_id": "420d23b0-c3e3-11e8-a157-19d597e45f64",
     "_type": "dashboard",
     "_source": {
@@ -28,7 +40,7 @@
       "description": "",
       "version": 1,
       "kibanaSavedObjectMeta": {
-        "searchSourceJSON": "{\"index\":\"08f108c0-d9f1-11e8-b825-f99a7c51db9b\",\"filter\":[{\"meta\":{\"index\":\"a282c260-c3dc-11e8-a157-19d597e45f64\",\"negate\":false,\"disabled\":false,\"alias\":null,\"type\":\"phrase\",\"key\":\"subcategory\",\"value\":\"user\",\"params\":{\"query\":\"user\",\"type\":\"phrase\"}},\"query\":{\"match\":{\"subcategory\":{\"query\":\"user\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}}],\"query\":{\"query\":\"\",\"language\":\"lucene\"}}"
+        "searchSourceJSON": "{\"index\":\"6d0dcd90-deb8-11e8-a110-f52a9a876cc4\",\"filter\":[{\"meta\":{\"index\":\"a282c260-c3dc-11e8-a157-19d597e45f64\",\"negate\":false,\"disabled\":false,\"alias\":null,\"type\":\"phrase\",\"key\":\"subcategory\",\"value\":\"user\",\"params\":{\"query\":\"user\",\"type\":\"phrase\"}},\"query\":{\"match\":{\"subcategory\":{\"query\":\"user\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}}],\"query\":{\"query\":\"\",\"language\":\"lucene\"}}"
       }
     },
     "_meta": {
@@ -45,7 +57,7 @@
       "description": "",
       "version": 1,
       "kibanaSavedObjectMeta": {
-        "searchSourceJSON": "{\"index\":\"08f108c0-d9f1-11e8-b825-f99a7c51db9b\",\"filter\":[{\"meta\":{\"index\":\"a069c540-c40f-11e8-baa4-9f76367e6446\",\"negate\":false,\"disabled\":false,\"alias\":null,\"type\":\"phrase\",\"key\":\"category\",\"value\":\"mem\",\"params\":{\"query\":\"mem\",\"type\":\"phrase\"}},\"query\":{\"match\":{\"category\":{\"query\":\"mem\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}}],\"query\":{\"query\":\"\",\"language\":\"lucene\"}}"
+        "searchSourceJSON": "{\"index\":\"6d0dcd90-deb8-11e8-a110-f52a9a876cc4\",\"filter\":[{\"meta\":{\"index\":\"a069c540-c40f-11e8-baa4-9f76367e6446\",\"negate\":false,\"disabled\":false,\"alias\":null,\"type\":\"phrase\",\"key\":\"category\",\"value\":\"mem\",\"params\":{\"query\":\"mem\",\"type\":\"phrase\"}},\"query\":{\"match\":{\"category\":{\"query\":\"mem\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}}],\"query\":{\"query\":\"\",\"language\":\"lucene\"}}"
       }
     },
     "_meta": {
@@ -62,7 +74,7 @@
       "description": "",
       "version": 1,
       "kibanaSavedObjectMeta": {
-        "searchSourceJSON": "{\"index\":\"08f108c0-d9f1-11e8-b825-f99a7c51db9b\",\"filter\":[{\"$state\":{\"store\":\"appState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"index\":\"d53c47e0-cfe8-11e8-b712-59218e3d6adc\",\"key\":\"category\",\"negate\":false,\"params\":{\"query\":\"custom\",\"type\":\"phrase\"},\"type\":\"phrase\",\"value\":\"custom\"},\"query\":{\"match\":{\"category\":{\"query\":\"custom\",\"type\":\"phrase\"}}}},{\"$state\":{\"store\":\"appState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"index\":\"d53c47e0-cfe8-11e8-b712-59218e3d6adc\",\"key\":\"subcategory\",\"negate\":false,\"params\":{\"query\":\"ping\",\"type\":\"phrase\"},\"type\":\"phrase\",\"value\":\"ping\"},\"query\":{\"match\":{\"subcategory\":{\"query\":\"ping\",\"type\":\"phrase\"}}}}],\"query\":{\"language\":\"lucene\",\"query\":\"\"}}"
+        "searchSourceJSON": "{\"index\":\"6d0dcd90-deb8-11e8-a110-f52a9a876cc4\",\"filter\":[{\"$state\":{\"store\":\"appState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"index\":\"d53c47e0-cfe8-11e8-b712-59218e3d6adc\",\"key\":\"category\",\"negate\":false,\"params\":{\"query\":\"custom\",\"type\":\"phrase\"},\"type\":\"phrase\",\"value\":\"custom\"},\"query\":{\"match\":{\"category\":{\"query\":\"custom\",\"type\":\"phrase\"}}}},{\"$state\":{\"store\":\"appState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"index\":\"d53c47e0-cfe8-11e8-b712-59218e3d6adc\",\"key\":\"subcategory\",\"negate\":false,\"params\":{\"query\":\"ping\",\"type\":\"phrase\"},\"type\":\"phrase\",\"value\":\"ping\"},\"query\":{\"match\":{\"subcategory\":{\"query\":\"ping\",\"type\":\"phrase\"}}}}],\"query\":{\"language\":\"lucene\",\"query\":\"\"}}"
       }
     },
     "_meta": {
@@ -79,7 +91,7 @@
       "description": "",
       "version": 1,
       "kibanaSavedObjectMeta": {
-        "searchSourceJSON": "{\"index\":\"08f108c0-d9f1-11e8-b825-f99a7c51db9b\",\"filter\":[{\"meta\":{\"index\":\"a069c540-c40f-11e8-baa4-9f76367e6446\",\"negate\":false,\"disabled\":false,\"alias\":null,\"type\":\"phrase\",\"key\":\"category\",\"value\":\"cpu\",\"params\":{\"query\":\"cpu\",\"type\":\"phrase\"}},\"query\":{\"match\":{\"category\":{\"query\":\"cpu\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}}],\"query\":{\"language\":\"lucene\",\"query\":\"\"}}"
+        "searchSourceJSON": "{\"index\":\"6d0dcd90-deb8-11e8-a110-f52a9a876cc4\",\"filter\":[{\"meta\":{\"index\":\"a069c540-c40f-11e8-baa4-9f76367e6446\",\"negate\":false,\"disabled\":false,\"alias\":null,\"type\":\"phrase\",\"key\":\"category\",\"value\":\"cpu\",\"params\":{\"query\":\"cpu\",\"type\":\"phrase\"}},\"query\":{\"match\":{\"category\":{\"query\":\"cpu\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}}],\"query\":{\"language\":\"lucene\",\"query\":\"\"}}"
       }
     },
     "_meta": {
