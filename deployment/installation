@@ -60,7 +60,7 @@ PUT metrics/_mapping/_doc
 
 
 ##########################
-# Agen installation
+# Agent installation
 ##########################
 # Install Go
 wget https://dl.google.com/go/go1.11.1.linux-amd64.tar.gz
@@ -80,3 +80,9 @@ sudo sysctl -w net.ipv4.ping_group_range="0   2147483647"
 # Compile and run the agent
 cd ~/go/src/watchtopus
 go run ./agent/main.go &
+
+
+####################
+# Running Unit Tests
+####################
+go test server/tests/* -v
