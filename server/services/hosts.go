@@ -47,7 +47,7 @@ func hostsGetList(ctx context.Context) []map[string]string {
 
 	// Search with a term query
 	searchResult, err := utils.GetESClient().Search().
-		Index("hosts"). // search in index "twitter"
+		Index("hosts").
 		Type("_doc").
 		Query(elastic.NewMatchAllQuery()). // specify the query
 		Pretty(true).

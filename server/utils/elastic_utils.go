@@ -63,3 +63,21 @@ func GetBodyKey(docSource *json.RawMessage, key string) string {
 
 	return value
 }
+
+func GetBodyKeyFloat(docSource *json.RawMessage, key string) float64 {
+	var value float64
+
+	// json.RawMessage is just a byte[], so we need to marshal it to a string map
+	var objmap map[string]*json.RawMessage
+	err := json.Unmarshal(*docSource, &objmap)
+
+	// Each key in the map is again a json.RawMessage, so we need to check if the key exists
+	// and then marshal again the value
+	if err == nil {
+		if _, ok := objmap[key]; ok {
+			json.Unmarshal(*objmap[key], &value)
+		}
+	}
+
+	return value
+}

@@ -6,6 +6,7 @@ import (
 	_ "fmt"
 	"github.com/go-martini/martini"
 	"github.com/martini-contrib/cors"
+	"github.com/olivere/elastic"
 	"github.com/spf13/viper"
 	"io/ioutil"
 	"log"
@@ -40,13 +41,14 @@ func StartApiServer() {
 }
 
 func registerEndpoints(martiniServer *martini.ClassicMartini) {
-	martiniServer.Post("/report", report)
+	martiniServer.Post("/report", postReport)
+	martiniServer.Get("/report/:host/last/:key", getLastReport)
 	martiniServer.Get("/hosts/list", getHostsList)
 	martiniServer.Get("/hosts/:host", getHostConfigs)
 	martiniServer.Post("/hosts/:host", setHostConfigs)
 }
 
-func report(res http.ResponseWriter, req *http.Request) {
+func postReport(res http.ResponseWriter, req *http.Request) {
 	//Decode the JSON utils
 	decoder := json.NewDecoder(req.Body)
 	var data []orm.MetricFloat
@@ -115,6 +117,46 @@ func setHostConfigs(req *http.Request, params martini.Params) (int, string) {
 	} else {
 		return http.StatusBadRequest, "{}"
 	}
+}
+
+func getLastReport(params martini.Params, res http.ResponseWriter) {
+	query := elastic.NewBoolQuery()
+	query.Must(elastic.NewTermQuery("hostId", params["host"]))
+	query.Must(elastic.NewTermQuery("key", params["key"]))
+
+	// Search with a term query
+	searchResult, err := utils.GetESClient().Search().
+		Index("metrics").
+		Type("_doc").
+		Query(query). // specify the query
+		Pretty(true).
+		Do(context.Background())
+
+	if err != nil {
+		// Handle error
+		logger.Errorf("Error while fetching hosts list from ES %s", err.Error())
+	}
+
+	lastResult := make(map[string]string, 0)
+	if searchResult.Hits.TotalHits > 0 {
+		hit := searchResult.Hits.Hits[0]
+		lastResult = map[string]string{
+			"key":    utils.GetBodyKey(hit.Source, "key"),
+			"hostId": utils.GetBodyKey(hit.Source, "hostId"),
+			"val":    infra.FloatToString(utils.GetBodyKeyFloat(hit.Source, "val")),
+		}
+	} else {
+		// No hits
+		logger.Info("No reports found\n")
+	}
+
+	if err == nil {
+		res.WriteHeader(http.StatusOK)
+	} else {
+		res.WriteHeader(http.StatusNotFound)
+	}
+	lastResultJson, _ := json.Marshal(lastResult)
+	res.Write(lastResultJson)
 }
 
 func addDefaultHeaders(res http.ResponseWriter) {

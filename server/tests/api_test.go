@@ -36,7 +36,7 @@ func TestMain(m *testing.M) {
 
 func TestReport(t *testing.T) {
 	var allMetrics = []orm.MetricFloat{
-		orm.MetricFloat{
+		{
 			HostId:      "abc123",
 			HostIp:      "127.0.0.1",
 			Timestamp:   time.Now(),
@@ -50,10 +50,32 @@ func TestReport(t *testing.T) {
 
 	strJson, _ := json.Marshal(allMetrics)
 
+	// Post the report to the server
 	resp, err := http.Post("http://localhost:3001/report", "application/json", bytes.NewBuffer(strJson))
 	if err != nil || resp.StatusCode != 200 {
-		t.Error("Calling /report failed")
+		t.Error("Calling POST /report failed")
 	}
 
-	// TODO - Verify that the data was written to elasticsearch
+	// Get last report of this host
+	resp, err = http.Get("http://localhost:3001/report/abc123/last/cpu.user.cpu1")
+	if err != nil || resp.StatusCode != 200 {
+		t.Error("Calling GET /report failed")
+	}
+	lastReport := infra.ParseResponseBody(resp)
+
+	// Assert to verify that the correct values were written for the last report
+	var key, hostId, val string
+	json.Unmarshal(*lastReport["key"], &key)
+	json.Unmarshal(*lastReport["hostId"], &hostId)
+	json.Unmarshal(*lastReport["val"], &val)
+
+	if key != allMetrics[0].Key {
+		t.Error("Bad key")
+	}
+	if hostId != allMetrics[0].HostId {
+		t.Error("Bad hostId")
+	}
+	if val != infra.FloatToString(allMetrics[0].Val) {
+		t.Error("Bad val")
+	}
 }

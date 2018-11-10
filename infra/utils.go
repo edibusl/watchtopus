@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"regexp"
+	"strconv"
 )
 
 var regexHostWithPort = regexp.MustCompile(`[:]\d+`)
@@ -41,4 +42,9 @@ func ParseResponseBody(resp *http.Response) map[string]*json.RawMessage {
 	}
 
 	return msg
+}
+
+func FloatToString(input_num float64) string {
+	// to convert a float number to a string
+	return strconv.FormatFloat(input_num, 'f', 6, 64)
 }
