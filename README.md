@@ -70,32 +70,16 @@ PUT hosts/_mapping/_doc
 PUT metrics
 PUT metrics/_mapping/_doc
 {
-	"properties":{
-		"key":{
-			"type":"keyword"
-		},
-		"val":{
-			"type":"float"
-		},
-		"category":{
-			"type":"keyword"
-		},
-		"subcategory":{
-			"type":"keyword"
-		},
-		"component":{
-			"type":"keyword"
-		},
-		"timestamp":{
-		  "type": "date"
-		},
-		"hostId": {
-		    "type": "keyword"
-		},
-		"hostIp": {
-		    "type": "keyword"
-		}
-	}
+    "properties":{
+        "key":{"type":"keyword"},
+        "val":{"type":"float"},
+        "category":{"type":"keyword"},
+        "subcategory":{"type":"keyword"},
+        "component":{"type":"keyword"},
+        "timestamp":{"type": "date"},
+        "hostId": {"type": "keyword"},
+        "hostIp": {"type": "keyword"}
+    }
 }
 ```
 
@@ -104,4 +88,10 @@ PUT metrics/_mapping/_doc
 cd ~/go/src/watchtopus
 go test server/tests/* -v
 go test agent/tests/* -v
+```
+
+### Building & deploying to docker registry
+```bash
+cd ~/go/src/watchtopus/deployment
+bash build_dockers.sh
 ```
