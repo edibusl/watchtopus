@@ -2,6 +2,11 @@
 Easily fully-monitor a network of servers with a quick installation of the agents and the central server.
 <br>
 Watchtopus is an educational project and not suitable (yet) for use in production.
+<br><br>
+A DR document that describes the Watchtopus project, can be found [here](https://docs.google.com/document/d/1jAmNmHwWiGXkTauNhiiRrf9f3IvOTqSMdzgIomw__r0).
+<br>
+Usage instructions can be found [here](https://docs.google.com/document/d/1MmbKV-CGezTQLdcqOLPWkzRsNAsPzM1vPB_Zkm-BQWk).
+
 
 ## Quick Installation of central server
 1. Configure aws or any other docker registry provider that holds the docker images:
